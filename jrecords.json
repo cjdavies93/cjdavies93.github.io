@@ -1,0 +1,23 @@
+[
+  {
+    "fullName": "",
+    "email": "",
+    "age": "",
+    "country": "",
+    "subscribe": false
+  },
+  {
+    "fullName": "Alice Johnson",
+    "email": "alice@example.com",
+    "age": 28,
+    "country": "UK",
+    "subscribe": true
+  },
+  {
+    "fullName": "Mark Lee",
+    "email": "mark@example.com",
+    "age": 34,
+    "country": "USA",
+    "subscribe": false
+  }
+]
