@@ -1,23 +1,21 @@
 [
   {
-    "fullName": "",
-    "email": "",
-    "age": "",
-    "country": "",
-    "subscribe": false
+    "word": "",
+    "type": "",
+    "meaning": "",
+    "sentence": ""
   },
   {
-    "fullName": "Alice Johnson",
-    "email": "alice@example.com",
-    "age": 28,
-    "country": "UK",
-    "subscribe": true
+    "word": "Plumber",
+    "type": "noun",
+    "meaning": "a person who repairs water and gas pipes",
+    "sentence": "I called a plumber to fix a leak in my house"
   },
   {
-    "fullName": "Mark Lee",
-    "email": "mark@example.com",
-    "age": 34,
-    "country": "USA",
-    "subscribe": false
+    "word": "saw",
+    "type": "noun",
+    "meaning": "a tool with sharp teeth for cutting wood",
+    "sentence": "You will need a saw to cut that tree down"
+    
   }
 ]
