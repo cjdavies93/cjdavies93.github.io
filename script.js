@@ -19,7 +19,7 @@ function buildRecordSelector() {
   records.forEach((rec, index) => {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = "Record " + index +" "+ records.name;
+    option.textContent = "Record " + index ;
     select.appendChild(option);
   });
 
