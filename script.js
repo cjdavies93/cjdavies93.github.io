@@ -8,11 +8,6 @@ async function loadRecords() {
   // Get field names from first record
   fieldNames = Object.keys(records[0]);
 
-  const message = new SpeechSynthesisUtterance();
-message.text = "This is a demo of text-to-speech functionality.";
-message.lang = "en-US";
-speechSynthesis.speak(message);
-
   buildRecordSelector();
   buildForm();
   loadRecord(1); // load first actual record
