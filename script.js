@@ -69,6 +69,6 @@ function showPreview() {
   previewBox.textContent = JSON.stringify(data, null, 2);
 }
 
-//document.getElementById("preview-btn").addEventListener("click", showPreview);
+document.getElementById("preview-btn").addEventListener("click", showPreview);
 
 loadRecords();
