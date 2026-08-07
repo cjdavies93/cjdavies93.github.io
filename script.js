@@ -28,14 +28,14 @@ function buildRecordSelector() {
   });
 }
 function buldrecordSelectorByWord() {
-  fetch("words.json")
+  fetch("records.json")
     .then(response => response.json())
     .then(data => {
 
         const select = document.getElementById("wordList");
 
         data.forEach(item => {
-            if (item.word === "") return; // Skip blank record
+           // if (item.word === "") return; // Skip blank record
 
             const option = document.createElement("option");
             option.value = item.word;
