@@ -27,6 +27,26 @@ function buildRecordSelector() {
     loadRecord(select.value);
   });
 }
+function buldrecordSelectorByWord() {
+  fetch("words.json")
+    .then(response => response.json())
+    .then(data => {
+
+        const select = document.getElementById("wordList");
+
+        data.forEach(item => {
+            if (item.word === "") return; // Skip blank record
+
+            const option = document.createElement("option");
+            option.value = item.word;
+            option.textContent = item.word;
+
+            select.appendChild(option);
+        });
+
+    });
+  }
+
 
 function buildForm() {
   const container = document.getElementById("form-container");
