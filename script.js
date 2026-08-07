@@ -9,7 +9,7 @@ async function loadRecords() {
   fieldNames = Object.keys(records[0]);
 
   buildRecordSelector();
-  buildrecordSelectorByWord();
+  //buildrecordSelectorByWord();
   buildForm();
   loadRecord(1); // load first actual record
 }
