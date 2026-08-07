@@ -34,7 +34,7 @@ async function buldrecordSelectorByWord() {
   const response = await fetch("records.json");
   const records = await response.json();
 
-  const select = document.getElementById("wordSList");
+  const select = document.getElementById("wordList");
 
   // Loop through each record
   records.forEach(record => {
