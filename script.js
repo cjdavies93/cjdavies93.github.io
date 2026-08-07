@@ -9,6 +9,7 @@ async function loadRecords() {
   fieldNames = Object.keys(records[0]);
 
   buildRecordSelector();
+  buildrecordSelectorByWord();
   buildForm();
   loadRecord(1); // load first actual record
 }
@@ -27,26 +28,25 @@ function buildRecordSelector() {
     loadRecord(select.value);
   });
 }
-function buldrecordSelectorByWord() {
-  fetch("records.json")
-    .then(response => response.json())
-    .then(data => {
+async function buldrecordSelectorByWord() {
 
-        const select = document.getElementById("wordList");
+  // Load the JSON file
+  const response = await fetch("records.json");
+  const records = await response.json();
 
-        data.forEach(item => {
-           // if (item.word === "") return; // Skip blank record
+  const select = document.getElementById("wordSList");
 
-            const option = document.createElement("option");
-            option.value = item.word;
-            option.textContent = item.word;
+  // Loop through each record
+  records.forEach(record => {
+    // Skip empty entries
+    if (!record.word) return;
 
-            select.appendChild(option);
-        });
-
-    });
-  }
-
+    const option = document.createElement("option");
+    option.value = record.word;
+    option.textContent = record.word;
+    select.appendChild(option);
+  });
+}
 
 function buildForm() {
   const container = document.getElementById("form-container");
