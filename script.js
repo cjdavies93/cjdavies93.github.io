@@ -30,19 +30,16 @@ function buildRecordSelector() {
 }
 
 function buldrecordSelectorByWord() {
-
   const select = document.getElementById("wordList");
 
   // Loop through each record
-  records.forEach(record) => {
-    // Skip empty entries
-    console.log("word",record.word);
-    if (!record.word) return;
-
+  
+  records.forEach((record) => {
     const option = document.createElement("option");
     option.value = record.word;
     option.textContent = record.word;
     select.appendChild(option);
+
   });
 }
 
