@@ -34,7 +34,7 @@ function buldrecordSelectorByWord() {
   const select = document.getElementById("wordList");
 
   // Loop through each record
-  records.forEach(record => {
+  records.forEach(record) => {
     // Skip empty entries
     console.log("word",record.word);
     if (!record.word) return;
