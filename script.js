@@ -40,7 +40,7 @@ function buldrecordSelectorByWord() {
   // Loop through each record
   records.forEach(record => {
     // Skip empty entries
-    console.log(record.word)
+    console.log("word",record.word)
     if (!record.word) return;
 
     const option = document.createElement("option");
