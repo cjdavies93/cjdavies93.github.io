@@ -31,16 +31,12 @@ function buildRecordSelector() {
 
 function buldrecordSelectorByWord() {
 
-  // Load the JSON file
-  const response = await fetch("records.json");
-  const records = await response.json();
-
   const select = document.getElementById("wordList");
 
   // Loop through each record
   records.forEach(record => {
     // Skip empty entries
-    console.log("word",record.word)
+    console.log("word",record.word);
     if (!record.word) return;
 
     const option = document.createElement("option");
