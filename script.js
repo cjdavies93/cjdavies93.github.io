@@ -28,7 +28,8 @@ function buildRecordSelector() {
     loadRecord(select.value);
   });
 }
-async function buldrecordSelectorByWord() {
+
+function buldrecordSelectorByWord() {
 
   // Load the JSON file
   const response = await fetch("records.json");
@@ -39,6 +40,7 @@ async function buldrecordSelectorByWord() {
   // Loop through each record
   records.forEach(record => {
     // Skip empty entries
+    console.log(record.word)
     if (!record.word) return;
 
     const option = document.createElement("option");
