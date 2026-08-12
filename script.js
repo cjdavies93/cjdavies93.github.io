@@ -34,7 +34,7 @@ function buldrecordSelectorByWord() {
 
   // Loop through each record
   
-  records.forEach((record) => {
+  records.forEach((rec, index) => {
     const option = document.createElement("option");
     option.value = record.word;
     option.textContent = record.word;
