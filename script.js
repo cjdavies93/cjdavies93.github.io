@@ -29,7 +29,7 @@ function buildRecordSelector() {
   });
 }
 
-function buldrecordSelectorByWord() {
+function buildrecordSelectorByWord() {
   const select = document.getElementById("wordList");
 
   // Loop through each record
