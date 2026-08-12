@@ -30,18 +30,18 @@ function buildRecordSelector() {
 }
 
 function buildrecordSelectorByWord() {
- // const select = document.getElementById("wordList");
+  const select = document.getElementById("wordList");
 
   // Loop through each record
   
- // records.forEach((rec, index) => {
+  records.forEach((rec, index) => {
    // const option = document.createElement("option");
     //option.value = records.word;
    // option.value=index;
    // option.textContent = "Record "+ index;
     //select.appendChild(option);
 
-//  });
+   });
 }
 
 function buildForm() {
