@@ -184,7 +184,7 @@
 (function () {
   const statusBox     = document.getElementById('status');
   const emptyState    = document.getElementById('emptyState');
-  const countLabel    = document.getElementById('count');
+  //const countLabel    = document.getElementById('count');
   const selectorRow   = document.getElementById('selectorRow');
   const selectLabel   = document.getElementById('selectLabel');
   const recordSelect  = document.getElementById('recordSelect');
@@ -276,7 +276,7 @@
     recordSelect.innerHTML = '';
     emptyState.textContent = 'records.json is not currently loaded.';
     emptyState.style.display = 'block';
-    countLabel.textContent = '0 records';
+    //countLabel.textContent = '0 records';
   }
 
   function buildSelector() {
