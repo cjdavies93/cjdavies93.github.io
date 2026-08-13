@@ -1,31 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>An English Word of the Day</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Record Viewer</title>
+<style>
+  :root{
+    --ink:#1c1b19;
+    --paper:#faf8f4;
+    --line:#ddd7cb;
+    --accent:#3a5a63;
+    --accent-soft:#e6edee;
+    --muted:#7a746a;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    padding:2.5rem 1.5rem 4rem;
+  }
+  .wrap{max-width:680px;margin:0 auto;}
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1.5rem;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:1rem;
+    margin-bottom:1.5rem;
+    flex-wrap:wrap;
+  }
+  h1{
+    font-size:1.6rem;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .count{
+    font-family:var(--mono);
+    font-size:0.8rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  #status{
+    font-family:var(--mono);
+    font-size:0.85rem;
+    padding:0.9rem 1rem;
+    border:1px dashed var(--line);
+    color:var(--muted);
+    margin-bottom:1rem;
+    display:none;
+  }
+  #status.error{
+    border-color:#a33;
+    color:#a33;
+  }
+  #status.visible{display:block;}
+
+  .selector-row{
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    margin-bottom:1.5rem;
+  }
+  .selector-row label{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  #recordSelect{
+    flex:1;
+    font-family:var(--serif);
+    font-size:1rem;
+    padding:0.6rem 0.75rem;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+  }
+  #recordSelect:focus{outline:2px solid var(--accent);outline-offset:1px;}
+
+  .nav-btn{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    background:#fff;
+    color:var(--ink);
+    border:1px solid var(--line);
+    padding:0.55rem 0.7rem;
+    cursor:pointer;
+  }
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+  .nav-btn:disabled{opacity:0.35;cursor:default;}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    display:none;
+  }
+  .field{
+    padding:1.1rem 1.4rem;
+    border-bottom:1px solid var(--line);
+  }
+  .field:last-child{border-bottom:none;}
+  .field-label-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.5rem;
+    margin-bottom:0.3rem;
+  }
+  .field-label{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--muted);
+  }
+  .speak-btn{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    line-height:1;
+    background:var(--accent-soft);
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:0.28rem 0.55rem;
+    cursor:pointer;
+    letter-spacing:0.03em;
+    white-space:nowrap;
+  }
+  .speak-btn:hover{background:var(--accent);color:#fff;}
+  .speak-btn:disabled{opacity:0.4;cursor:default;}
+  .speak-btn.speaking{background:var(--accent);color:#fff;}
+  .field-value{
+    font-size:1.05rem;
+    line-height:1.5;
+    word-wrap:break-word;
+    white-space:pre-wrap;
+  }
+  .field-value:empty::after{
+    content:"—";
+    color:var(--muted);
+  }
+
+  .empty-state{
+    text-align:center;
+    padding:3rem 1rem;
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:0.85rem;
+    border:1px dashed var(--line);
+  }
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Word of the Day</h1>
+<div class="wrap">
+  <header>
+    <h1>Record Viewer</h1>
+    <span class="count" id="count">0 records</span>
+  </header>
 
-   <!-- <label>Select record:</label> -->
-   <select id="record-select"></select>
-   
-   <select id="wordList">
-    <option>Select a word...</option>
-   </select>
+  <div id="status"></div>
 
-    <div id="form-container"></div>
-
-    <button id="preview-btn">Show Preview</button>
-
-    <!-- <h2>Preview</h2> -->
-   <!-- <pre id="preview-box">{}</pre> -->
+  <div class="selector-row" id="selectorRow" style="display:none;">
+    <label for="recordSelect" id="selectLabel">Select</label>
+    <select id="recordSelect"></select>
+    <button class="nav-btn" id="prevBtn" title="Previous record">&#8592;</button>
+    <button class="nav-btn" id="nextBtn" title="Next record">&#8594;</button>
   </div>
 
- <script src="script.js"></script>
+  <div class="card" id="card"></div>
+
+  <div class="empty-state" id="emptyState">Loading records.json…</div>
+</div>
+
+<script>
+(function () {
+  const statusBox     = document.getElementById('status');
+  const emptyState    = document.getElementById('emptyState');
+  const countLabel    = document.getElementById('count');
+  const selectorRow   = document.getElementById('selectorRow');
+  const selectLabel   = document.getElementById('selectLabel');
+  const recordSelect  = document.getElementById('recordSelect');
+  const prevBtn       = document.getElementById('prevBtn');
+  const nextBtn       = document.getElementById('nextBtn');
+  const card          = document.getElementById('card');
+
+  let records = [];   // full parsed data
+  let fields  = [];   // detected field names, in order
+
+  function showStatus(message, isError) {
+    statusBox.textContent = message;
+    statusBox.className = 'visible' + (isError ? ' error' : '');
+  }
+
+  function hideStatus() {
+    statusBox.className = '';
+  }
+
+  const DATA_URL = 'records.json';
+
+  function init() {
+    hideStatus();
+    showStatus('Loading records.json…', false);
+    fetch(DATA_URL, { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
+        return res.json();
+      })
+      .then(data => {
+        hideStatus();
+        loadRecords(data);
+      })
+      .catch(err => {
+        showStatus('Could not load ' + DATA_URL + ': ' + err.message, true);
+        resetView();
+      });
+  }
+
+  function loadRecords(data) {
+    // Accept either a bare array, or an object wrapping an array
+    // (e.g. { records: [...] } / { data: [...] }).
+    let arr = data;
+    if (!Array.isArray(arr) && arr && typeof arr === 'object') {
+      const key = Object.keys(arr).find(k => Array.isArray(arr[k]));
+      if (key) arr = arr[key];
+    }
+
+    if (!Array.isArray(arr)) {
+      showStatus('Expected the JSON to contain an array of records.', true);
+      resetView();
+      return;
+    }
+    if (arr.length === 0) {
+      showStatus('The file contains an empty array — nothing to display.', true);
+      resetView();
+      return;
+    }
+    if (typeof arr[0] !== 'object' || arr[0] === null || Array.isArray(arr[0])) {
+      showStatus('Expected each record to be a JSON object with text fields.', true);
+      resetView();
+      return;
+    }
+
+    fields = Object.keys(arr[0]);
+    records = arr.map(r => {
+      const clean = {};
+      fields.forEach(f => {
+        const v = (r && f in r) ? r[f] : '';
+        clean[f] = (v === null || v === undefined) ? '' : String(v);
+      });
+      return clean;
+    });
+
+    countLabel.textContent = records.length + (records.length === 1 ? ' record' : ' records');
+    buildSelector();
+    showRecord(0);
+    selectorRow.style.display = 'flex';
+    card.style.display = 'block';
+    emptyState.style.display = 'none';
+  }
+
+  function resetView() {
+    records = [];
+    fields = [];
+    card.style.display = 'none';
+    card.innerHTML = '';
+    selectorRow.style.display = 'none';
+    recordSelect.innerHTML = '';
+    emptyState.textContent = 'records.json is not currently loaded.';
+    emptyState.style.display = 'block';
+    countLabel.textContent = '0 records';
+  }
+
+  function buildSelector() {
+    const firstField = fields[0];
+    selectLabel.textContent = firstField;
+    recordSelect.innerHTML = '';
+    records.forEach((record, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      const label = record[firstField].trim();
+      opt.textContent = label ? label : '(untitled record ' + (i + 1) + ')';
+      recordSelect.appendChild(opt);
+    });
+  }
+
+  function showRecord(index) {
+    if (canSpeak) window.speechSynthesis.cancel();
+    const record = records[index];
+    recordSelect.value = index;
+    card.innerHTML = '';
+    fields.forEach(field => {
+      const wrap = document.createElement('div');
+      wrap.className = 'field';
+
+      const labelRow = document.createElement('div');
+      labelRow.className = 'field-label-row';
+
+      const label = document.createElement('div');
+      label.className = 'field-label';
+      label.textContent = field;
+      labelRow.appendChild(label);
+
+      if (field.toLowerCase().includes('sentence')) {
+        const speakBtn = document.createElement('button');
+        speakBtn.className = 'speak-btn';
+        speakBtn.type = 'button';
+        speakBtn.textContent = '\u{1F50A} Listen';
+        speakBtn.addEventListener('click', () => speakText(record[field], speakBtn));
+        labelRow.appendChild(speakBtn);
+      }
+
+      const value = document.createElement('div');
+      value.className = 'field-value';
+      value.textContent = record[field];
+
+      wrap.appendChild(labelRow);
+      wrap.appendChild(value);
+      card.appendChild(wrap);
+    });
+
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === records.length - 1;
+  }
+
+  const canSpeak = 'speechSynthesis' in window;
+
+  function speakText(text, btn) {
+    if (!canSpeak) {
+      showStatus('Text-to-speech is not supported in this browser.', true);
+      return;
+    }
+    if (!text || !text.trim()) return;
+
+    // Toggle off if this button is already speaking.
+    if (btn.classList.contains('speaking')) {
+      window.speechSynthesis.cancel();
+      return;
+    }
+
+    window.speechSynthesis.cancel(); // stop anything else in progress
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.onstart = () => btn.classList.add('speaking');
+    utterance.onend = () => btn.classList.remove('speaking');
+    utterance.onerror = () => btn.classList.remove('speaking');
+    window.speechSynthesis.speak(utterance);
+  }
+
+  recordSelect.addEventListener('change', function () {
+    showRecord(Number(recordSelect.value));
+  });
+
+  prevBtn.addEventListener('click', function () {
+    const i = Number(recordSelect.value);
+    if (i > 0) showRecord(i - 1);
+  });
+
+  nextBtn.addEventListener('click', function () {
+    const i = Number(recordSelect.value);
+    if (i < records.length - 1) showRecord(i + 1);
+  });
+
+  init();
+})();
+</script>
 </body>
 </html>
