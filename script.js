@@ -35,11 +35,11 @@ function buildrecordSelectorByWord() {
   // Loop through each record
   
   records.forEach((rec, index) => {
-   // const option = document.createElement("option");
-    //option.value = records.word;
+    const option = document.createElement("option");
+    option.value = records.word;
    // option.value=index;
-   // option.textContent = "Record "+ index;
-    //select.appendChild(option);
+    option.textContent = records.word + index;
+    select.appendChild(option);
 
    });
 }
