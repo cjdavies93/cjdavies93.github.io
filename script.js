@@ -20,7 +20,7 @@ function buildRecordSelector() {
   records.forEach((rec, index) => {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = "Record " + index +" test";
+    option.textContent = "Record " + index +" test1";
     select.appendChild(option);
   });
 
@@ -36,9 +36,9 @@ function buildrecordSelectorByWord() {
   
   records.forEach((rec, index) => {
     const option = document.createElement("option");
-    option.value = records.word;
+    option.value = records[index];
    // option.value=index;
-    option.textContent = records.word + index;
+    option.textContent = records[index];
     select.appendChild(option);
 
    });
